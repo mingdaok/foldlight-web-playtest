@@ -1,6 +1,6 @@
-import {campaigns} from './levels.js';
-import {Game} from './engine.js';
-import {View} from './render.js';
+import {campaigns} from './levels.js?v=lighting2';
+import {Game} from './engine.js?v=lighting2';
+import {View} from './render.js?v=lighting2';
 const $=id=>document.getElementById(id),game=new Game(campaigns),keys=new Set();
 let view,playing=false,selected=0,last=performance.now(),acc=0,toastTime=0,sound=true,audio,ready=false;
 let progress={};try{progress=JSON.parse(localStorage.getItem('foldlight-web-v1')||'{}')}catch{}

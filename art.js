@@ -1,7 +1,7 @@
-import * as T from './vendor/three.module.js';
-import {GLTFLoader} from './vendor/addons/loaders/GLTFLoader.js';
-import {OBJLoader} from './vendor/addons/loaders/OBJLoader.js';
-import {clone as cloneSkeleton} from './vendor/addons/utils/SkeletonUtils.js';
+import * as T from './vendor/three.module.js?v=lighting2';
+import {GLTFLoader} from './vendor/addons/loaders/GLTFLoader.js?v=lighting2';
+import {OBJLoader} from './vendor/addons/loaders/OBJLoader.js?v=lighting2';
+import {clone as cloneSkeleton} from './vendor/addons/utils/SkeletonUtils.js?v=lighting2';
 
 const dungeonNames=['pillar_decorated','wall_arched','wall_broken','torch_mounted','shelf_small_candles','table_small_decorated_A','barrel_large_decorated','barrel_small_stack','candle_triple','rubble_large','wall_archedwindow_open','shelves'];
 const modelNames=['SM_Stone','SM_Arch','SM_BrokenArch','SM_Crystal','SM_Ring','SM_Pedestal','SM_Gear','SM_Root','SM_Leaf','SM_Grass','SM_Banner','SM_Flame'];
@@ -47,13 +47,13 @@ export class OriginalArt {
    // Separate the slab and cap: their old coincident top faces caused z-fighting.
    const capHeight=Math.min(.18,s[2]*.3);
    const body=part('SM_Stone',[0,0,-capHeight/2],[s[0],s[1],s[2]-capHeight]);body.name='platform-body';
-   const cap=part('SM_Stone',[0,0,top-capHeight/2],[s[0],s[1],capHeight],game.campaign===3?[.77,.78,.76]:[.36,.49,.45]);cap.name='platform-cap';
+   const cap=part('SM_Stone',[0,0,top-capHeight/2],[s[0],s[1],capHeight],game.campaign===3?[.77,.78,.76]:[.36,.49,.45]);cap.name='platform-cap';cap.castShadow=false;
    if(s[0]>1&&s[1]>1&&!o.exclude){
     part('SM_Stone',[0,0,-top+.1],[s[0]*.96,s[1]*.96,.2],color.map(v=>v*.7));
     for(const sign of [-1,1]){part('Cube',[0,sign*s[1]*.5,top-.23],[s[0]*.92,.025,.03],gold,.15);part('Cube',[sign*s[0]*.5,0,top-.23],[.025,s[1]*.92,.03],gold,.15)}
     const cols=Math.min(14,Math.ceil(s[0]/2.2)),rows=Math.min(10,Math.ceil(s[1]/2.2));
-    for(let i=1;i<cols;i++)part('Cube',[-s[0]/2+s[0]*i/cols,0,top+.005],[.015,s[1]*.9,.005],color.map(v=>v*.45));
-    for(let i=1;i<rows;i++)part('Cube',[0,-s[1]/2+s[1]*i/rows,top+.006],[s[0]*.92,.015,.005],color.map(v=>v*.45));
+    for(let i=1;i<cols;i++)part('Cube',[-s[0]/2+s[0]*i/cols,0,top+.025],[.04,s[1]*.9,.008],color.map(v=>v*.45));
+    for(let i=1;i<rows;i++)part('Cube',[0,-s[1]/2+s[1]*i/rows,top+.026],[s[0]*.92,.04,.008],color.map(v=>v*.45));
     part('SM_Ring',[0,0,top+.008],[.9,.9,.012],gold,.12);
     if(game.campaign<3)for(const x of [-.4,.4])for(const y of [-.39,.39]){part('SM_Grass',[s[0]*x,s[1]*y,top+.03],[.48,.48,.16],[.13,.24,.14]);part('SM_Stone',[s[0]*x+.15,s[1]*y+.1,top+.025],[.2,.14,.05],color.map(v=>v*.55))}
    }
