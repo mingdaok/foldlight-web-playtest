@@ -1,7 +1,7 @@
-import {campaigns} from './levels.js?v=touch1';
-import {Game} from './engine.js?v=touch1';
-import {View} from './render.js?v=touch1';
-import {HeldInput,bindGameButton,touchSensitivity} from './input.js?v=touch1';
+import {campaigns} from './levels.js?v=stick1';
+import {Game} from './engine.js?v=stick1';
+import {View} from './render.js?v=stick1';
+import {HeldInput,bindGameButton,bindJoystick,touchSensitivity} from './input.js?v=stick1';
 const $=id=>document.getElementById(id),game=new Game(campaigns),keys=new HeldInput();
 let sensitivity=touchSensitivity(null);try{sensitivity=touchSensitivity(localStorage.getItem('foldlight-touch-sensitivity'))}catch{}
 let view,playing=false,selected=0,last=performance.now(),acc=0,toastTime=0,sound=true,audio,ready=false;
@@ -37,9 +37,10 @@ window.addEventListener('keyup',e=>keys.delete(e.code==='Space'?'space':e.key.to
 window.addEventListener('blur',()=>{keys.clear();if(playing&&!$('dialog').open&&!game.done)pause()});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){keys.clear();if(playing&&!$('dialog').open&&!game.done)pause()}});
 document.querySelectorAll('[data-action],[data-hold]').forEach(b=>bindGameButton(b,keys,action,()=>ready&&playing&&!$('dialog').open));
+bindJoystick($('joystick'),$('joystickThumb'),keys,()=>ready&&playing&&!$('dialog').open);
 $('start').onclick=()=>start(0);$('continue').onclick=()=>start(progress[selected]?.room||0);$('select').onclick=levels;$('help').onclick=help;$('settings').onclick=settings;$('pause').onclick=pause;$('brand').onclick=e=>{e.preventDefault();menu()};$('close').onclick=closeDialog;$('dialog').addEventListener('cancel',e=>{e.preventDefault();closeDialog()});$('sound').onclick=()=>{sound=!sound;$('sound').textContent='音效 · '+(sound?'开':'关');if(sound)beep()};
 try{view=new View($('scene'));$('loading').textContent='正在加载原项目模型与动画…';await view.loadAssets();view.build(game);ready=true;campaignButtons();$('loading').hidden=true}catch(err){$('loading').textContent='游戏或原模型加载失败，请刷新重试并确认本地服务正在运行。'+err.message;throw err}
-function frame(now){const dt=Math.min((now-last)/1000,.05);last=now;if(playing&&!$('dialog').open){acc+=dt;while(acc>=1/120){game.tick(1/120,{x:(keys.has('d')?1:0)-(keys.has('a')?1:0),y:(keys.has('s')?1:0)-(keys.has('w')?1:0),cast:keys.has('f'),lookYaw:view.orbit.yaw});acc-=1/120;if(game.completed){if(game.done){finish();break}progress[game.campaign]={room:game.index+1,finished:false};save();if(!game.advanceCheckpoint())load(game.campaign,game.index+1);beep(740);toast('检查点已保存 · '+game.room.name);break}}updateHud();while(game.events.length)toast(game.events.shift());if(toastTime>0){toastTime-=dt;if(toastTime<=0)$('toast').style.opacity=0}}else acc=0;view.render(game,playing&&$('dialog').open?0:dt,!playing,playing&&!$('dialog').open?acc*120:1);requestAnimationFrame(frame)}
+function frame(now){const dt=Math.min((now-last)/1000,.05);last=now;if(playing&&!$('dialog').open){acc+=dt;while(acc>=1/120){game.tick(1/120,{...keys.movement(),cast:keys.has('f'),lookYaw:view.orbit.yaw});acc-=1/120;if(game.completed){if(game.done){finish();break}progress[game.campaign]={room:game.index+1,finished:false};save();if(!game.advanceCheckpoint())load(game.campaign,game.index+1);beep(740);toast('检查点已保存 · '+game.room.name);break}}updateHud();while(game.events.length)toast(game.events.shift());if(toastTime>0){toastTime-=dt;if(toastTime<=0)$('toast').style.opacity=0}}else acc=0;view.render(game,playing&&$('dialog').open?0:dt,!playing,playing&&!$('dialog').open?acc*120:1);requestAnimationFrame(frame)}
 requestAnimationFrame(frame);
 // Read-only diagnostics, useful for reproducing browser issues without changing progression.
 window.foldlightSnapshot=()=>({campaign:game.campaign,room:game.index,flat:game.flat,view:game.view,position:[...game.player.p],ground:game.player.ground,solved:game.solved(),paused:$('dialog').open,camera:{mode:view.camera.type,yaw:view.orbit.yaw,pitch:view.orbit.pitch,arm:view.arm}});
@@ -69,5 +70,7 @@ document.addEventListener('pointerlockchange',()=>{
  if(!document.pointerLockElement&&playing&&!$('dialog').open&&!game.done)pause();
 });
 document.addEventListener('pointerlockerror',()=>toast('当前浏览器未允许锁定鼠标，直接在场景内移动鼠标仍可转动视角。'));
+
+
 
 

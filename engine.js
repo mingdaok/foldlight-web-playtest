@@ -1,4 +1,4 @@
-import {cameraMovement} from './camera.js?v=touch1';
+import {cameraMovement} from './camera.js?v=stick1';
 // World coordinates follow the UE layout: X/Y ground plane, Z up, metres.
 export const RIGHT=[[1,0],[0,-1],[-1,0],[0,1]];
 export const DEPTH=[[0,1],[1,0],[0,-1],[-1,0]];
@@ -64,5 +64,6 @@ export class Game {
  this.physics(dt,input);
  }
 }
+
 
 

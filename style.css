@@ -7,3 +7,8 @@
 .sensitivity-label{display:flex;justify-content:space-between;gap:20px;font-size:15px}
 #sensitivity{width:100%;height:44px;margin:18px 0;accent-color:var(--gold)}
 #sensitivityValue{color:var(--gold);font-variant-numeric:tabular-nums}
+#joystick{width:136px;height:136px;position:relative;border-radius:50%;pointer-events:auto;touch-action:none;user-select:none;-webkit-user-select:none;background:radial-gradient(circle,#19354266 0 36%,#102832b8 38% 100%);border:2px solid #b2ccda55;box-shadow:inset 0 0 0 8px #ffffff04}
+.joystick-ring{position:absolute;inset:21px;border:1px solid #b2ccda30;border-radius:50%;pointer-events:none}
+#joystickThumb{position:absolute;left:50%;top:50%;width:52px;height:52px;border-radius:50%;transform:translate(-50%,-50%);background:#b9cccfdd;border:2px solid #e4ece7aa;box-shadow:0 3px 12px #0004;pointer-events:none}
+#joystick.engaged{border-color:var(--gold)}#joystick.engaged #joystickThumb{background:#eac78bdd;border-color:#ffe1ae}
+@media(max-height:380px){#joystick{width:116px;height:116px}#joystickThumb{width:46px;height:46px}}

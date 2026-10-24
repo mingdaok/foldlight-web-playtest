@@ -1,7 +1,7 @@
-import * as T from './vendor/three.module.js?v=touch1';
-import {GLTFLoader} from './vendor/addons/loaders/GLTFLoader.js?v=touch1';
-import {OBJLoader} from './vendor/addons/loaders/OBJLoader.js?v=touch1';
-import {clone as cloneSkeleton} from './vendor/addons/utils/SkeletonUtils.js?v=touch1';
+import * as T from './vendor/three.module.js?v=stick1';
+import {GLTFLoader} from './vendor/addons/loaders/GLTFLoader.js?v=stick1';
+import {OBJLoader} from './vendor/addons/loaders/OBJLoader.js?v=stick1';
+import {clone as cloneSkeleton} from './vendor/addons/utils/SkeletonUtils.js?v=stick1';
 
 const dungeonNames=['pillar_decorated','wall_arched','wall_broken','torch_mounted','shelf_small_candles','table_small_decorated_A','barrel_large_decorated','barrel_small_stack','candle_triple','rubble_large','wall_archedwindow_open','shelves'];
 const modelNames=['SM_Stone','SM_Arch','SM_BrokenArch','SM_Crystal','SM_Ring','SM_Pedestal','SM_Gear','SM_Root','SM_Leaf','SM_Grass','SM_Banner','SM_Flame'];
@@ -103,4 +103,5 @@ export class OriginalArt {
   return g;
  }
 }
+
 
