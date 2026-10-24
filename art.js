@@ -44,7 +44,10 @@ export class OriginalArt {
  object(o,game){const g=new T.Group(),s=o.size,top=s[2]/2;let color=game.campaign===3?(o.exclude?[.46,.49,.50]:[.72,.74,.72]):game.campaign===1?[.22,.30,.37]:game.campaign===2?(game.index===2||game.index===3?[.42,.62,.68]:[.16,.20,.23]):stone;
   const part=(name,p,size,c=color,glow=0)=>this.part(g,name,p,size,c,glow);
   if(['Platform','Pillar'].includes(o.kind)){
-   part('SM_Stone',[0,0,0],s);part('SM_Stone',[0,0,top-.09],[s[0],s[1],.18],game.campaign===3?[.77,.78,.76]:[.36,.49,.45]);
+   // Separate the slab and cap: their old coincident top faces caused z-fighting.
+   const capHeight=Math.min(.18,s[2]*.3);
+   const body=part('SM_Stone',[0,0,-capHeight/2],[s[0],s[1],s[2]-capHeight]);body.name='platform-body';
+   const cap=part('SM_Stone',[0,0,top-capHeight/2],[s[0],s[1],capHeight],game.campaign===3?[.77,.78,.76]:[.36,.49,.45]);cap.name='platform-cap';
    if(s[0]>1&&s[1]>1&&!o.exclude){
     part('SM_Stone',[0,0,-top+.1],[s[0]*.96,s[1]*.96,.2],color.map(v=>v*.7));
     for(const sign of [-1,1]){part('Cube',[0,sign*s[1]*.5,top-.23],[s[0]*.92,.025,.03],gold,.15);part('Cube',[sign*s[0]*.5,0,top-.23],[.025,s[1]*.92,.03],gold,.15)}
@@ -75,6 +78,8 @@ export class OriginalArt {
    for(let i=0;i<12;i++)part('Cube',[0,(i-5.5)*s[1]/12,0],[.35,.18,s[2]],gold,.1);
    for(const z of [-.4,.4])part('SM_Stone',[0,0,z*s[2]],[.45,s[1],.24]);
   }
+  // Thin surface markings should not cast disconnected shadow stripes.
+  g.traverse(m=>{if(m.isMesh&&Math.abs(m.scale.z)<.04){m.castShadow=false;m.receiveShadow=false}});
   return g;
  }
  environment(game){const g=new T.Group();
