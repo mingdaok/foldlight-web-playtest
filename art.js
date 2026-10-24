@@ -21,15 +21,24 @@ export class OriginalArt {
  part(group,name,p,size,color=stone,glow=0){let geo=this.models.get(name);if(!geo){if(name==='Cone'){geo=new T.CylinderGeometry(.08,.5,1,7);geo.rotateX(Math.PI/2)}else if(name==='Cylinder'){geo=new T.CylinderGeometry(.5,.5,1,12);geo.rotateX(Math.PI/2)}else geo=new T.BoxGeometry(1,1,1)}const m=new T.Mesh(geo,this.material(color,glow));m.position.set(...p);m.scale.set(...size);m.castShadow=m.receiveShadow=true;group.add(m);return m}
  imported(group,name,p,scale=1,yaw=0){const wrap=new T.Group(),asset=this.dungeon.get(name).clone(true);asset.rotation.x=Math.PI/2;asset.scale.setScalar(scale);wrap.rotation.z=yaw;wrap.position.set(...p);wrap.add(asset);group.add(wrap);return wrap}
  makeHero(){const root=new T.Group(),model=cloneSkeleton(this.mage.scene);model.rotation.x=Math.PI/2;model.scale.setScalar(.65);model.traverse(n=>{if(n.isMesh){n.castShadow=n.receiveShadow=true;n.frustumCulled=false;n.material.roughness=.85}});root.add(model);const mixer=new T.AnimationMixer(model),actions=new Map();
-  for(const clip of this.mage.animations){const action=mixer.clipAction(clip);actions.set(clip.name,action)}
-  actions.get('Idle').play();return {root,model,mixer,actions,current:'Idle',previous:null,air:0,land:0,wasGround:true,cast:0,lastCast:0};
+  for(const clip of this.mage.animations){const action=mixer.clipAction(clip);if(['Jump_Start','Jump_Land','Spellcast_Shoot','Interact'].includes(clip.name)){action.setLoop(T.LoopOnce,1);action.clampWhenFinished=true}action.setEffectiveWeight(0);actions.set(clip.name,action)}
+  actions.get('Idle').setEffectiveWeight(1).play();return {root,model,mixer,actions,current:'Idle',previous:null,air:0,land:0,wasGround:true,cast:0,lastCast:0};
  }
- animate(hero,game,dt){const p=game.player.p,prev=hero.previous,speed=prev&&dt>0?Math.hypot(p[0]-prev[0],p[1]-prev[1])/dt:0;hero.previous=[...p];
+ animate(hero,game,dt){const speed=game.player.moveSpeed||0;if(dt<=0)return;
   if(!game.player.ground)hero.air+=dt;else hero.air=0;
   if(game.player.ground&&!hero.wasGround)hero.land=.22;hero.wasGround=game.player.ground;hero.land=Math.max(0,hero.land-dt);
   if((game.castSerial||0)!==hero.lastCast){hero.cast=.65;hero.lastCast=game.castSerial||0}hero.cast=Math.max(0,hero.cast-dt);
   const state=hero.cast>0||game.channelling?'Spellcast_Shoot':!game.player.ground?(hero.air<.14?'Jump_Start':'Jump_Idle'):hero.land>0?'Jump_Land':speed>2.3?'Running_A':speed>.12?'Walking_A':'Idle';
-  if(state!==hero.current){const old=hero.actions.get(hero.current),next=hero.actions.get(state);next.reset().play();old.crossFadeTo(next,.13,false);hero.current=state}
+  if(state!==hero.current){
+   const next=hero.actions.get(state),weight=next.getEffectiveWeight();next.reset().setEffectiveWeight(weight).play();hero.current=state;
+  }
+  // Blend the current weights, including interrupted transitions, with a unit total.
+  const blend=1-Math.exp(-dt*22);
+  for(const [name,action] of hero.actions){
+   const weight=action.getEffectiveWeight(),goal=name===hero.current?1:0;
+   action.setEffectiveWeight(weight+(goal-weight)*blend);
+   if(goal===0&&action.getEffectiveWeight()<.000001)action.setEffectiveWeight(0).stop();
+  }
   hero.mixer.update(dt);const target=Math.atan2(game.player.face[1],game.player.face[0])+Math.PI/2;let delta=target-hero.root.rotation.z;delta=Math.atan2(Math.sin(delta),Math.cos(delta));hero.root.rotation.z+=delta*Math.min(1,dt*14);
  }
  object(o,game){const g=new T.Group(),s=o.size,top=s[2]/2;let color=game.campaign===3?(o.exclude?[.46,.49,.50]:[.72,.74,.72]):game.campaign===1?[.22,.30,.37]:game.campaign===2?(game.index===2||game.index===3?[.42,.62,.68]:[.16,.20,.23]):stone;

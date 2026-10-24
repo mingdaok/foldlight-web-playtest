@@ -22,7 +22,7 @@ export class Game {
  fold(){const p=this.player;if(!p.ground||!p.support){this.say('需要站稳在平台上才能切换维度。');return false}if(this.objects.some(o=>o.moving)){this.say('请等待石柱停稳。');return false}const flat=!this.flat,target=[...p.p];if(!flat){const d=DEPTH[this.view],delta=dot(p.support.p,d)-dot(target,d);target[0]+=d[0]*delta;target[1]+=d[1]*delta}if(flat&&p.support.exclude){this.say('回到主路平台后再折叠。');return false}
  const blocked=this.objects.some(o=>o!==p.support&&this.solid(o,flat)&&!(flat&&(o.exclude||(this.campaigns[this.campaign].worldObjects&&o.zone!==this.index)))&&this.overlaps(target,o,flat,.035));if(blocked){this.say('目标空间被占用，换个位置再折叠。');return false}p.p=target;this.flat=flat;this.used2D ||=flat;this.switches++;this.channelling=false;p.face=[...this.basis()];return true}
  jump(){this.jumpBuffer=.16}
- physics(dt,input){const axes=!this.flat&&Number.isFinite(input.lookYaw)?cameraMovement(input.lookYaw):null;const p=this.player,b=axes?.right??this.basis(),d=axes?.back??DEPTH[this.view];let h=input.x||0,v=this.flat?0:input.y||0;const len=Math.hypot(h,v);if(len>1){h/=len;v/=len}const dx=b[0]*h+d[0]*v,dy=b[1]*h+d[1]*v;if(len>.01)p.face=[dx,dy];if(p.ground)this.coyote=.12;else this.coyote=Math.max(0,this.coyote-dt);this.jumpBuffer=Math.max(0,this.jumpBuffer-dt);if(this.jumpBuffer>0&&this.coyote>0){p.vz=7;this.jumpBuffer=0;this.coyote=0;p.ground=false}
+ physics(dt,input){const before=[...this.player.p];this.previousPosition=before;const axes=!this.flat&&Number.isFinite(input.lookYaw)?cameraMovement(input.lookYaw):null;const p=this.player,b=axes?.right??this.basis(),d=axes?.back??DEPTH[this.view];let h=input.x||0,v=this.flat?0:input.y||0;const len=Math.hypot(h,v);if(len>1){h/=len;v/=len}const dx=b[0]*h+d[0]*v,dy=b[1]*h+d[1]*v;if(len>.01)p.face=[dx,dy];if(p.ground)this.coyote=.12;else this.coyote=Math.max(0,this.coyote-dt);this.jumpBuffer=Math.max(0,this.jumpBuffer-dt);if(this.jumpBuffer>0&&this.coyote>0){p.vz=7;this.jumpBuffer=0;this.coyote=0;p.ground=false}
  const canStep=p.ground&&p.vz<=0;const stepBase=p.p[2];const solids=this.colliders();const move=(axis,delta)=>{p.p[axis]+=delta;for(const o of solids){if(!this.overlaps(p.p,o))continue;const bb=this.bounds(o);
  if(canStep&&['Platform','Pillar'].includes(o.kind)&&bb[5]>stepBase+.001&&bb[5]<=stepBase+.32){
   const raised=[...p.p];raised[2]=bb[5];
@@ -43,6 +43,7 @@ export class Game {
   }).sort((a,b)=>b.b[5]-a.b[5]);
   if(candidates.length){const {o,b}=candidates[0];p.p[2]=b[5];p.vz=0;p.ground=true;p.support=o}
  }
+ p.moveSpeed=Math.hypot(p.p[0]-before[0],p.p[1]-before[1])/dt;
  if(p.p[2]<this.room.start[2]-10)this.reset();
  }
  use(){if(this.flat){this.say('先 V 展开为三维，再按 G 交互。');return}const p=this.player.p;const pillar=this.objects.find(o=>o.kind==='Pillar'&&!o.moved&&!o.moving&&Math.hypot(p[0]-o.p[0],p[1]-o.p[1])<3.4);if(pillar){pillar.moving=true;this.say('轨道石柱正在移动…');return}

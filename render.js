@@ -1,3 +1,4 @@
+import {interpolatedPosition} from './motion.js';
 import * as T from './vendor/three.module.js';
 import {RIGHT,DEPTH,dot} from './engine.js';
 import {blocksPlayerView} from './visibility.js';
@@ -61,8 +62,8 @@ export class View {
  resetLook(game){const d=DEPTH[game.view];this.orbit.yaw=game.campaign===3?Math.atan2(-d[1],-d[0]):Math.atan2(d[1],d[0]);this.orbit.pitch=cameraPreset(game.campaign).pitch}
  updateCamera(game,dt,menu){
   const preset=cameraPreset(game.campaign);
-  const target=menu?new T.Vector3(-.5,0,2):new T.Vector3(...game.player.p).add(new T.Vector3(0,0,preset.targetHeight));
-  this.focus.lerp(target,1-Math.exp(-dt*12));
+  const target=menu?new T.Vector3(-.5,0,2):this.hero.position.clone().add(new T.Vector3(0,0,preset.targetHeight));
+  if(menu)this.focus.lerp(target,1-Math.exp(-dt*12));else this.focus.copy(target);
   if(menu||game.flat){
    this.camera=this.orthoCamera;
    const yaw=this.viewAngle+(menu?.22:0);
@@ -83,9 +84,9 @@ export class View {
  }
  resize(){const w=innerWidth,h=innerHeight;this.renderer.setSize(w,h,false);this.aspect=w/h}
  worldPos(p,g,offset=0){const b=RIGHT[g.view],d=DEPTH[g.view],depth=dot(p,d)*(1-this.flatMix)+dot(g.player.p,d)*this.flatMix;return new T.Vector3(b[0]*dot(p,b)+d[0]*depth,b[1]*dot(p,b)+d[1]*depth,p[2]+offset)}
- render(game,dt,menu=false){if(this.loadSerial!==game.loadSerial)this.build(game);this.clock+=dt;const target=game.flat?1:0;this.flatMix+=(target-this.flatMix)*Math.min(1,dt*9);let angle=game.view*Math.PI/2;while(angle-this.viewAngle>Math.PI)angle-=Math.PI*2;while(angle-this.viewAngle< -Math.PI)angle+=Math.PI*2;this.viewAngle+=(angle-this.viewAngle)*Math.min(1,dt*8);this.scene.background.lerp(new T.Color(game.flat?0xd8e3e4:0x152732),Math.min(1,dt*6));this.scene.fog.color.copy(this.scene.background);this.decor.visible=!game.flat&&!this.art;if(this.environment)this.environment.visible=!game.flat;this.grid.visible=game.flat;if(game.flat){const d=DEPTH[game.view];this.grid.rotation.set(0,0,-game.view*Math.PI/2);this.grid.position.set(game.player.p[0]+d[0]*12,game.player.p[1]+d[1]*12,0)}
+ render(game,dt,menu=false,alpha=1){if(this.loadSerial!==game.loadSerial)this.build(game);this.clock+=dt;const target=game.flat?1:0;this.flatMix+=(target-this.flatMix)*Math.min(1,dt*9);let angle=game.view*Math.PI/2;while(angle-this.viewAngle>Math.PI)angle-=Math.PI*2;while(angle-this.viewAngle< -Math.PI)angle+=Math.PI*2;this.viewAngle+=(angle-this.viewAngle)*Math.min(1,dt*8);this.scene.background.lerp(new T.Color(game.flat?0xd8e3e4:0x152732),Math.min(1,dt*6));this.scene.fog.color.copy(this.scene.background);this.decor.visible=!game.flat&&!this.art;if(this.environment)this.environment.visible=!game.flat;this.grid.visible=game.flat;if(game.flat){const d=DEPTH[game.view];this.grid.rotation.set(0,0,-game.view*Math.PI/2);this.grid.position.set(game.player.p[0]+d[0]*12,game.player.p[1]+d[1]*12,0)}
  for(const o of game.objects){const m=this.meshes.get(o.id);m.visible=!o.burned&&!o.broken&&!(game.flat&&(o.exclude||(game.campaigns[game.campaign].worldObjects&&o.zone!==game.index)));m.position.copy(this.worldPos(o.p,game,o.open?o.size[2]+1:0));if(o.kind==='Receiver'){const core=m.getObjectByName('core')??m.children[1];core.rotation.z=this.clock*.7;core.visible=o.active||Math.sin(this.clock*2)>-.5}if(o.kind==='IceWheel'){const wheel=m.getObjectByName('wheel');if(!o.frozen){if(this.art)wheel.rotation.z+=dt;else wheel.rotation.y+=dt}}if(o.burning)m.scale.setScalar(1+Math.sin(this.clock*25)*.025);else m.scale.set(1,1,1)}
- this.hero.position.copy(this.worldPos(game.player.p,game));if(this.heroRig)this.art.animate(this.heroRig,game,dt);else{this.hero.rotation.z=Math.atan2(game.player.face[1],game.player.face[0])*.12;this.hero.children[0].rotation.z=Math.sin(this.clock*7)*.025;}
+ const position=interpolatedPosition(game.previousPosition,game.player.p,alpha);this.hero.position.copy(this.worldPos(position,game));if(this.heroRig)this.art.animate(this.heroRig,game,dt);else{this.hero.rotation.z=Math.atan2(game.player.face[1],game.player.face[0])*.12;this.hero.children[0].rotation.z=Math.sin(this.clock*7)*.025;}
  this.clear(this.fx);
  if(game.fire){const f=game.fire,center=this.worldPos(f.p,game);const fireGroup=new T.Group();fireGroup.position.copy(center);this.fx.add(fireGroup);const r=RIGHT[game.view],dep=DEPTH[game.view],flat=game.flat;for(let i=0;i<25;i++){const a=i*2.399,rad=.3+(i%5)*.38,x=flat?r[0]*Math.sin(a)*.55:Math.cos(a)*rad,y=flat?r[1]*Math.sin(a)*.55:Math.sin(a)*rad,h=(flat?3.5:.55)*( .6+.4*Math.sin(i+this.clock*9));const flame=new T.Mesh(new T.ConeGeometry(flat?.11:.14,h,5),this.mat(i%3?0xff9c43:0xffdb87,1.3));flame.rotation.x=Math.PI/2;flame.position.set(x,y,h/2+.1);fireGroup.add(flame)}const ring=new T.Mesh(new T.RingGeometry(1.85,2,48),this.mat(0xffad57,.8));ring.position.z=.03;ring.visible=!flat;fireGroup.add(ring)}
  if(game.channelling){const p=game.player,angle=Math.atan2(p.face[1],p.face[0]),center=this.worldPos(p.p,game,.09);const fan=new T.Mesh(new T.CircleGeometry(6,32,angle-.698,1.396),this.fanMaterial);fan.position.copy(center);this.fx.add(fan);for(let i=0;i<20;i++){const a=angle-.65+(i%7)/6*1.3,r=(i*.31+this.clock*4)%6;this.crystal(this.fx,[center.x+Math.cos(a)*r,center.y+Math.sin(a)*r,center.z+.05],.07,0xa8edff)}}
