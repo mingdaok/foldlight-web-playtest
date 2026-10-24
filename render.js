@@ -1,10 +1,10 @@
-import {stableShadowTarget} from './lighting.js?v=lighting2';
-import {interpolatedPosition} from './motion.js?v=lighting2';
-import * as T from './vendor/three.module.js?v=lighting2';
-import {RIGHT,DEPTH,dot} from './engine.js?v=lighting2';
-import {blocksPlayerView} from './visibility.js?v=lighting2';
-import {cameraPreset,verticalFov,springArmDistance} from './camera.js?v=lighting2';
-import {OriginalArt} from './art.js?v=lighting2';
+import {stableShadowTarget} from './lighting.js?v=touch1';
+import {interpolatedPosition} from './motion.js?v=touch1';
+import * as T from './vendor/three.module.js?v=touch1';
+import {RIGHT,DEPTH,dot} from './engine.js?v=touch1';
+import {blocksPlayerView} from './visibility.js?v=touch1';
+import {cameraPreset,verticalFov,springArmDistance} from './camera.js?v=touch1';
+import {OriginalArt} from './art.js?v=touch1';
 const palette={Platform:0x617779,Pillar:0x9b9674,Vine:0x61876a,Receiver:0xe7bb70,IceWheel:0x76b8c7,IceGate:0x78969d,Fragile:0x9eafb3,Exit:0xf1cc86};
 export class View {
  constructor(canvas){this.renderer=new T.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});this.renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));this.renderer.outputColorSpace=T.SRGBColorSpace;this.renderer.toneMapping=T.ACESFilmicToneMapping;this.renderer.toneMappingExposure=1.15;this.renderer.shadowMap.enabled=true;this.renderer.shadowMap.type=T.PCFSoftShadowMap;this.scene=new T.Scene();this.scene.background=new T.Color(0x152732);this.scene.fog=new T.FogExp2(0x152732,.011);this.camera=new T.OrthographicCamera(-20,20,12,-12,.1,300);this.orthoCamera=this.camera;this.perspectiveCamera=new T.PerspectiveCamera(45,1,.08,300);this.perspectiveCamera.up.set(0,0,1);this.orbit={yaw:Math.PI/2,pitch:27*Math.PI/180};this.camera.up.set(0,0,1);this.focus=new T.Vector3();this.scene.add(new T.HemisphereLight(0xc0e1eb,0x28333d,1.3));const sun=new T.DirectionalLight(0xffd6a2,3);sun.position.set(-15,-20,35);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-18;sun.shadow.camera.right=18;sun.shadow.camera.top=18;sun.shadow.camera.bottom=-18;sun.shadow.camera.near=.5;sun.shadow.camera.far=90;sun.shadow.bias=-.0002;sun.shadow.normalBias=.035;this.sun=sun;this.scene.add(sun,sun.target);const rim=new T.DirectionalLight(0x9de7ff,2);rim.position.set(20,15,15);this.scene.add(rim);this.world=new T.Group();this.scene.add(this.world);this.decor=new T.Group();this.scene.add(this.decor);this.hero=this.makeHero();this.scene.add(this.hero);this.fx=new T.Group();this.scene.add(this.fx);this.materials=new Map();this.fanMaterial=new T.MeshBasicMaterial({color:0x81d9ef,transparent:true,opacity:.22,side:T.DoubleSide,depthWrite:false});this.beamMaterial=new T.LineBasicMaterial({color:0xc4f6ff});this.meshes=new Map();this.flatMix=0;this.viewAngle=0;this.clock=0;this.makeBackdrop();this.resize();window.addEventListener('resize',()=>this.resize())}
@@ -98,5 +98,6 @@ export class View {
 
  }
 }
+
 
 

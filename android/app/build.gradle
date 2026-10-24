@@ -6,8 +6,8 @@ android {
         applicationId 'com.foldlight.playtest'
         minSdk 26
         targetSdk 35
-        versionCode 1
-        versionName '1.0-playtest'
+        versionCode 2
+        versionName '1.1-touch'
     }
     sourceSets.main.assets.srcDirs = [layout.buildDirectory.dir('gameAssets')]
 }
@@ -19,3 +19,4 @@ tasks.register('copyGameAssets', Sync) {
     into layout.buildDirectory.dir('gameAssets')
 }
 tasks.named('preBuild').configure { dependsOn 'copyGameAssets' }
+
