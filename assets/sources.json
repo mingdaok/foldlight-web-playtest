@@ -1,0 +1,162 @@
+[
+  {
+    "source": "Tools\\ExternalAssets\\Prepared\\Mage.glb",
+    "file": "Mage.glb",
+    "sha256": "e32c68b12eedb5fea0e1c7100e982e0b4e0cd15cc1320c66675f240fddd83fcb"
+  },
+  {
+    "source": "Tools\\ExternalAssets\\Prepared\\KayKitAdventurers-CC0.txt",
+    "file": "KayKitAdventurers-CC0.txt",
+    "sha256": "ae322141814056dda0deea7540d74c41d87aee1da319977cd1bd84ee5a923629"
+  },
+  {
+    "source": "Tools\\ExternalAssets\\Prepared\\KayKitDungeon-CC0.txt",
+    "file": "KayKitDungeon-CC0.txt",
+    "sha256": "c5f17abf619731f57f6bbff450f6484214605c13aa96bb75bbcfc70930941ff7"
+  },
+  {
+    "source": "Tools\\GeneratedModels\\SM_Arch.obj",
+    "file": "models/SM_Arch.obj",
+    "sha256": "9f92dde7ab5c09a5b90ecbd8d8268b8e4d33c25fa99fa61470470b091f3fa6d3"
+  },
+  {
+    "source": "Tools\\GeneratedModels\\SM_Banner.obj",
+    "file": "models/SM_Banner.obj",
+    "sha256": "0d3edbcf09101d7dea3fde836ab9aa5feb505c8f8dcac650f5c5891dfa95aea5"
+  },
+  {
+    "source": "Tools\\GeneratedModels\\SM_BrokenArch.obj",
+    "file": "models/SM_BrokenArch.obj",
+    "sha256": "bc1ebac849096dff7d37762c9a786904de0e172b3f12a1eb12f37073e2819f5d"
+  },
+  {
+    "source": "Tools\\GeneratedModels\\SM_Cape.obj",
+    "file": "models/SM_Cape.obj",
+    "sha256": "43e612b35b27fc4f84d082a566d08b8a73cab9458b0974dde346e05a342f4dd7"
+  },
+  {
+    "source": "Tools\\GeneratedModels\\SM_Crystal.obj",
+    "file": "models/SM_Crystal.obj",
+    "sha256": "e3387b41abdf773ed4b1aca1eb77b65c0d588d6f349fd9a6294106f40b698c65"
+  },
+  {
+    "source": "Tools\\GeneratedModels\\SM_Flame.obj",
+    "file": "models/SM_Flame.obj",
+    "sha256": "8d976b79ef305d3e78f8787fc7a3751bb85c85a878f3595857125ae4bd240b03"
+  },
+  {
+    "source": "Tools\\GeneratedModels\\SM_Gear.obj",
+    "file": "models/SM_Gear.obj",
+    "sha256": "1aa9b06a19806dde176a01dc1f03b41f1e7193cf7fc3c177abaa03dff8a8bb4a"
+  },
+  {
+    "source": "Tools\\GeneratedModels\\SM_Grass.obj",
+    "file": "models/SM_Grass.obj",
+    "sha256": "83d2a86eddcdce00411612f1ec68d6b4d592df61d5c6e357032e79af329ee1eb"
+  },
+  {
+    "source": "Tools\\GeneratedModels\\SM_Leaf.obj",
+    "file": "models/SM_Leaf.obj",
+    "sha256": "7a447ede1e1643f6ad6f427893b29e5469b439c165741b367595548a25b33f81"
+  },
+  {
+    "source": "Tools\\GeneratedModels\\SM_Pedestal.obj",
+    "file": "models/SM_Pedestal.obj",
+    "sha256": "49d3eddadb11f2def32d8c1ecd67302f366a5e9205956cdd8ac1b3edd22cb20a"
+  },
+  {
+    "source": "Tools\\GeneratedModels\\SM_Ring.obj",
+    "file": "models/SM_Ring.obj",
+    "sha256": "3455efe78af5ffe6384539ca87747b292a98dced862d64d96eab1fdc5c2bfa89"
+  },
+  {
+    "source": "Tools\\GeneratedModels\\SM_Root.obj",
+    "file": "models/SM_Root.obj",
+    "sha256": "3268aaba3a7d35020289421017af2b8d50abfb30f4e545cd46589f8dc47e0c14"
+  },
+  {
+    "source": "Tools\\GeneratedModels\\SM_Sigil.obj",
+    "file": "models/SM_Sigil.obj",
+    "sha256": "30d633377c592c9254dc611a4426ef4b24b5ed97bfc04559082a003e9cb7b1e7"
+  },
+  {
+    "source": "Tools\\GeneratedModels\\SM_Stone.obj",
+    "file": "models/SM_Stone.obj",
+    "sha256": "1ac4aa0733e40150307b521202aad8b5d4eb5ab11cf0f32c29587fc1c41a2ea9"
+  },
+  {
+    "source": "Tools\\GeneratedModels\\SM_Wax.obj",
+    "file": "models/SM_Wax.obj",
+    "sha256": "2c0ee50ef0ca7e8588a7db6c450e82ceafb464f20441581f2dc0d018721afb34"
+  },
+  {
+    "source": "Tools\\ExternalAssets\\KayKitDungeon\\KayKit-Dungeon-Remastered-1.0-main\\addons\\kaykit_dungeon_remastered\\Assets\\gltf\\pillar_decorated.gltf.glb",
+    "file": "dungeon/pillar_decorated.glb",
+    "sha256": "eecf7d454a1b6767a113e2490cb1536134abea0b57329a50cf2250d3ed8e2f65"
+  },
+  {
+    "source": "Tools\\ExternalAssets\\KayKitDungeon\\KayKit-Dungeon-Remastered-1.0-main\\addons\\kaykit_dungeon_remastered\\Assets\\gltf\\wall_arched.gltf.glb",
+    "file": "dungeon/wall_arched.glb",
+    "sha256": "916a7d81b8d6ebddb069440a0f9ecb14c9c2a1e5cd7769acf2218d630bd56cb8"
+  },
+  {
+    "source": "Tools\\ExternalAssets\\KayKitDungeon\\KayKit-Dungeon-Remastered-1.0-main\\addons\\kaykit_dungeon_remastered\\Assets\\gltf\\wall_broken.gltf.glb",
+    "file": "dungeon/wall_broken.glb",
+    "sha256": "ee7598ef2b88aaeb7b61e46d5f1da1a059de3860b080b38b7a507ca2f461302c"
+  },
+  {
+    "source": "Tools\\ExternalAssets\\KayKitDungeon\\KayKit-Dungeon-Remastered-1.0-main\\addons\\kaykit_dungeon_remastered\\Assets\\gltf\\torch_mounted.gltf.glb",
+    "file": "dungeon/torch_mounted.glb",
+    "sha256": "a617c159e02932db48ca81ec46f1f100acc8904fb6ece43e919d2f93c13950e9"
+  },
+  {
+    "source": "Tools\\ExternalAssets\\KayKitDungeon\\KayKit-Dungeon-Remastered-1.0-main\\addons\\kaykit_dungeon_remastered\\Assets\\gltf\\shelf_small_candles.gltf.glb",
+    "file": "dungeon/shelf_small_candles.glb",
+    "sha256": "d6f6a809c1e4635b143fd3c6e790331aa049d625abd390429c1e5887f77cbb96"
+  },
+  {
+    "source": "Tools\\ExternalAssets\\KayKitDungeon\\KayKit-Dungeon-Remastered-1.0-main\\addons\\kaykit_dungeon_remastered\\Assets\\gltf\\table_small_decorated_A.gltf.glb",
+    "file": "dungeon/table_small_decorated_A.glb",
+    "sha256": "8b079b22cc25ae79241ab29f94d3118d0214eadfa2c5711da88852ffdd554223"
+  },
+  {
+    "source": "Tools\\ExternalAssets\\KayKitDungeon\\KayKit-Dungeon-Remastered-1.0-main\\addons\\kaykit_dungeon_remastered\\Assets\\gltf\\barrel_large_decorated.gltf.glb",
+    "file": "dungeon/barrel_large_decorated.glb",
+    "sha256": "d3ad760d5005500a8755e5a816e574dd7e4227c5bb038685a3cb0ab2ad8bb6cb"
+  },
+  {
+    "source": "Tools\\ExternalAssets\\KayKitDungeon\\KayKit-Dungeon-Remastered-1.0-main\\addons\\kaykit_dungeon_remastered\\Assets\\gltf\\barrel_small_stack.gltf.glb",
+    "file": "dungeon/barrel_small_stack.glb",
+    "sha256": "c23dc73a11c5a57ed33cb8a9df99f2b2793517341c5d62c6e50b0150652e8e99"
+  },
+  {
+    "source": "Tools\\ExternalAssets\\KayKitDungeon\\KayKit-Dungeon-Remastered-1.0-main\\addons\\kaykit_dungeon_remastered\\Assets\\gltf\\candle_triple.gltf.glb",
+    "file": "dungeon/candle_triple.glb",
+    "sha256": "3536f0a55df50c728ec9c369c4a6a81c913b33a507ac4a192d418d28fd6677c2"
+  },
+  {
+    "source": "Tools\\ExternalAssets\\KayKitDungeon\\KayKit-Dungeon-Remastered-1.0-main\\addons\\kaykit_dungeon_remastered\\Assets\\gltf\\rubble_large.gltf.glb",
+    "file": "dungeon/rubble_large.glb",
+    "sha256": "0292da1b5788a5a52b616d5d27d3270c676a5fbf9e921b6dd3dc30364d355b54"
+  },
+  {
+    "source": "Tools\\ExternalAssets\\KayKitDungeon\\KayKit-Dungeon-Remastered-1.0-main\\addons\\kaykit_dungeon_remastered\\Assets\\gltf\\wall_archedwindow_open.gltf.glb",
+    "file": "dungeon/wall_archedwindow_open.glb",
+    "sha256": "8c75cb77edc51c94b91c5625828391fb56c70bf31e2235cf5abf718eae0d842a"
+  },
+  {
+    "source": "Tools\\ExternalAssets\\KayKitDungeon\\KayKit-Dungeon-Remastered-1.0-main\\addons\\kaykit_dungeon_remastered\\Assets\\gltf\\shelves.gltf.glb",
+    "file": "dungeon/shelves.glb",
+    "sha256": "8df148ae0f4909512295302491f2b40dc3ae84d072f2cacdfd929c7848d7062e"
+  },
+  {
+    "source": "ArtSource\\Confluence\\scenery.json",
+    "file": "confluence-scenery.json",
+    "sha256": "b08387b3a864bd3e7173f51ad4d43d052cfd8842b002111b3cd04c607629d994"
+  },
+  {
+    "source": "ArtSource\\Courtyard\\scenery.json",
+    "file": "courtyard-scenery.json",
+    "sha256": "dfeede39441796dac3650ca0ad136dcbe168d49a384ad0af2654d3990552e867"
+  }
+]
